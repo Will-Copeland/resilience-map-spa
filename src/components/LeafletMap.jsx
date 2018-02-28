@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { Map, TileLayer, Marker, Popup } from 'react-leaflet';
+import { Map, TileLayer, Marker, Popup, GeoJSON } from 'react-leaflet';
 import L from 'leaflet';
 import 'leaflet/dist/leaflet.css'
 import './LeafletMap.css';
@@ -27,17 +27,33 @@ class LeafletMap extends Component {
     }
   }
 
+  componentDidMount() {
+    if(!this.state.layers){
+      fetch('http://localhost:5000/map-datasets')
+        .then((resp) => resp.json())
+        .then((data) => {
+          this.setState({layers: data});
+      })
+    }
+  }
+
   layerHandler = (name, url) => {
     if (!this.state[name]){
       fetch(url).then(resp => resp.json())
-      .then(data =>{
-        this.setState({[name]:data})
-        console.log(Object.keys(this.state))}
-      )
+      .then(data => {
+        delete data.crs;
+        this.setState({[name]:data});
+        console.log(data);
+
+      })
+    } else {
+
     }
   }
 
   render() {
+    // console.log(this.state);
+    const {layers} = this.state;
     return (
       <Map className="map" center={mapCenter} zoom={zoomLevel}>
         <TileLayer attribution={attribution} url={osmTiles} />
@@ -46,7 +62,8 @@ class LeafletMap extends Component {
             <span>Center of the Map</span>
           </Popup>
         </Marker>
-        <ControlPanel layerHandler={this.layerHandler}/>
+
+        <ControlPanel dataset={layers} layerHandler={this.layerHandler}/>
       </Map>
     );
   }

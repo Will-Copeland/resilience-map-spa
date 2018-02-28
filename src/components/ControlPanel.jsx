@@ -23,52 +23,39 @@ const buttonStyle = {
 export default class ControlPanel extends Component {
   constructor(props) {
     super(props);
+    console.log(this.props);
     this.state = {
 
     }
   }
 
-  componentWillMount() {
-    if(!this.state.layers){
-      fetch('http://localhost:5000/map-datasets')
-      .then((resp) => resp.json())
-      .then((data) => {
-        this.setState({layers: data});
-        console.log(this.state);
-      })
-    }
-  }
+
 
   clickHandler = (layerID) => {
-    const layer = this.state.layers.filter(layer =>
-      layer.name === layerID
-    );
-    console.log(layer[0].name);
-    this.props.layerHandler(layer[0].name, layer[0].url);
+    console.log(layerID);
   }
 
 
 
   render() {
-    if (!this.state.layers) {
-      console.log(this.state);
-      return null;
-    } else {
-      const layers = this.state.layers.map((layer) =>
-        <button onClick={() => this.clickHandler(layer.name)}
-        style={buttonStyle} key={layer.name}>
-          {layer.name}
-        </button>
-      );
       return (
         <Control position="topright">
           <div style={divStyle}>
             <h1>Layers</h1>
-            {layers}
+            {!this.props.dataset ? (
+              <h1>spinner</h1>
+            ) : (
+              this.props.dataset.map((set) =>
+              <button onClick={() => this.clickHandler(set.name)}
+              style={buttonStyle} key={set.name}>
+                {set.name}
+              </button>
+              )
+            )}
           </div>
         </Control>
       );
-    }
+
 
   }
 }
