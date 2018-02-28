@@ -7,10 +7,6 @@
     "react": "16.2.0",
     "react-dom": "16.2.0",
     "react-leaflet": "1.8.0",
-<<<<<<< HEAD
-    "react-leaflet-control": "1.4.1",
-=======
->>>>>>> 156876ab4b9fd6bbd322f64f0f93704cbddfa473
     "react-scripts": "1.1.0"
   },
   "scripts": {
