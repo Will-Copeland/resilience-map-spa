@@ -3,6 +3,7 @@ import { Map, TileLayer, Marker, Popup } from 'react-leaflet';
 import L from 'leaflet';
 import 'leaflet/dist/leaflet.css'
 import './LeafletMap.css';
+import SearchBar from './SearchBar/SearchBar.jsx';
 
 // workaround for webpack(?) issue
 // https://github.com/PaulLeCam/react-leaflet/issues/255#issuecomment-261904061
@@ -27,6 +28,7 @@ class LeafletMap extends Component {
             <span>Center of the Map</span>
           </Popup>
         </Marker>
+        <SearchBar />
       </Map>
     );
   }
